@@ -230,6 +230,11 @@ a {
   --ps: #fff1e6;
 }
 
+.favorite-card.theme-ugpa {
+  --p: #10264a;
+  --ps: #fff5cf;
+}
+
 .favorite-card a {
   display: flex;
   align-items: center;
@@ -382,6 +387,12 @@ a {
   --p: #ea580c;
   --ps: #fff1e6;
   --pd: #9a3412;
+}
+
+.project-panel.theme-ugpa {
+  --p: #10264a;
+  --ps: #fff5cf;
+  --pd: #10264a;
 }
 
 .project-header {
@@ -703,6 +714,12 @@ a {
   --p: #ea580c;
   --ps: #fff1e6;
   --pd: #9a3412;
+}
+
+.modal-panel.theme-ugpa {
+  --p: #10264a;
+  --ps: #fff5cf;
+  --pd: #10264a;
 }
 
 .modal-header {
