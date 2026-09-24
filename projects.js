@@ -61,25 +61,6 @@ window.MISLINKS_PROJECTS = [
     ]
   },
   {
-    id: "docentes",
-    name: "Sistema Docente",
-    short: "DO",
-    category: "academic",
-    categoryLabel: "Académico",
-    description: "Accesos del sistema para docentes, coordinadores y administración.",
-    groups: [
-      {
-        name: "Accesos",
-        links: [
-          { id: "doc-general", label: "General", url: "https://docentenuevo.pages.dev/", primary: true },
-          { id: "doc-docentes", label: "Docentes", url: "https://docentenuevo.pages.dev/docente/" },
-          { id: "doc-coordinadores", label: "Coordinadores", url: "https://docentenuevo.pages.dev/coordinador/" },
-          { id: "doc-admin", label: "Administrador", url: "https://docentenuevo.pages.dev/administrador/" }
-        ]
-      }
-    ]
-  },
-  {
     id: "titulacion",
     name: "Revisión de Títulos",
     short: "RT",
