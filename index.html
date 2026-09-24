@@ -18,6 +18,12 @@
         </span>
       </a>
 
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Buscar proyecto o acceso..." />
+        <kbd>/</kbd>
+      </label>
+
       <div class="top-stats" aria-label="Resumen">
         <span><strong id="projectCount">3</strong> proyectos</span>
         <span><strong id="linkCount">33</strong> accesos</span>
@@ -25,42 +31,24 @@
     </header>
 
     <main>
-      <section class="intro-row">
-        <div>
-          <p class="eyebrow">Panel personal</p>
-          <h1>Proyectos y accesos</h1>
-          <p>Todo organizado en un solo lugar.</p>
-        </div>
-
-        <label class="search-box">
-          <span aria-hidden="true">⌕</span>
-          <input id="searchInput" type="search" autocomplete="off" placeholder="Buscar proyecto, perfil o herramienta..." />
-          <kbd>/</kbd>
-        </label>
-      </section>
-
-      <section class="toolbar" aria-label="Filtros y favoritos">
-        <div id="filters" class="filters" role="group" aria-label="Filtrar proyectos">
-          <button class="filter is-active" data-filter="all" type="button">Todos</button>
-          <button class="filter" data-filter="professional" type="button">Profesional</button>
-          <button class="filter" data-filter="academic" type="button">Académico</button>
-        </div>
-
-        <div class="results">
-          <span id="resultsCount"></span>
-        </div>
-      </section>
-
       <section class="favorites-strip" id="favoritesSection">
         <span class="favorites-label">Favoritos</span>
         <div id="favoritesGrid" class="favorites-grid"></div>
+      </section>
+
+      <section class="projects-heading">
+        <div>
+          <p class="eyebrow">Panel personal</p>
+          <h1>Proyectos</h1>
+        </div>
+        <span id="resultsCount" class="results"></span>
       </section>
 
       <section class="projects-section">
         <div id="projectsGrid" class="projects-grid"></div>
         <div id="emptyState" class="empty-state" hidden>
           <strong>No encontré coincidencias.</strong>
-          <span>Prueba con otra palabra o cambia el filtro.</span>
+          <span>Prueba con otra palabra.</span>
         </div>
       </section>
     </main>
@@ -68,10 +56,10 @@
 
   <div id="accessModal" class="modal" hidden>
     <button class="modal-backdrop" type="button" data-close-modal aria-label="Cerrar"></button>
-    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <section id="modalPanel" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <header class="modal-header">
-        <div>
-          <span id="modalTag" class="project-tag"></span>
+        <div class="modal-title-wrap">
+          <span id="modalProject" class="modal-project">Proyecto</span>
           <h2 id="modalTitle">Accesos</h2>
         </div>
         <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">×</button>
