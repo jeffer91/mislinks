@@ -2,12 +2,14 @@
   const projects = window.MISLINKS_PROJECTS || [];
   const projectsGrid = document.getElementById("projectsGrid");
   const favoritesGrid = document.getElementById("favoritesGrid");
-  const favoritesSection = document.getElementById("favoritesSection");
   const searchInput = document.getElementById("searchInput");
   const filters = document.getElementById("filters");
   const resultsCount = document.getElementById("resultsCount");
   const emptyState = document.getElementById("emptyState");
-  const themeToggle = document.getElementById("themeToggle");
+  const modal = document.getElementById("accessModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalTag = document.getElementById("modalTag");
+  const modalContent = document.getElementById("modalContent");
 
   const allLinks = projects.flatMap(project =>
     project.groups.flatMap(group =>
@@ -25,7 +27,6 @@
   const defaultFavorites = ["tit-admin", "doc-admin", "cv-principal"];
   let activeFilter = "all";
   let query = "";
-  let openProjects = new Set();
   let favorites = loadFavorites();
 
   function loadFavorites() {
@@ -42,7 +43,7 @@
   }
 
   function escapeHtml(value = "") {
-    return value
+    return String(value)
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
@@ -51,15 +52,14 @@
   }
 
   function normalized(value = "") {
-    return value
+    return String(value)
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
   }
 
   function projectMatches(project) {
-    const filterMatch = activeFilter === "all" || project.category === activeFilter;
-    if (!filterMatch) return false;
+    if (activeFilter !== "all" && project.category !== activeFilter) return false;
     if (!query) return true;
 
     const haystack = [
@@ -75,13 +75,9 @@
     return normalized(haystack).includes(normalized(query));
   }
 
-  function totalLinks() {
-    return allLinks.length;
-  }
-
   function renderStats() {
     document.getElementById("projectCount").textContent = projects.length;
-    document.getElementById("linkCount").textContent = totalLinks();
+    document.getElementById("linkCount").textContent = allLinks.length;
   }
 
   function starButton(link) {
@@ -100,64 +96,57 @@
 
   function card(project) {
     const links = project.groups.flatMap(group => group.links);
-    const first = links.find(link => link.primary) || links[0];
-    const isOpen = openProjects.has(project.id);
-    const quickLinks = project.id === "cv" ? [first, links[1]].filter(Boolean) : links;
+    const primary = links.find(link => link.primary) || links[0];
+
+    let quickLinks;
+    if (project.id === "cv") {
+      quickLinks = [
+        primary,
+        links.find(link => link.id === "cv-admin")
+      ].filter(Boolean);
+    } else if (project.id === "docentes") {
+      quickLinks = [
+        links.find(link => link.id === "doc-general"),
+        links.find(link => link.id === "doc-admin")
+      ].filter(Boolean);
+    } else {
+      quickLinks = [
+        links.find(link => link.id === "tit-estudiantes"),
+        links.find(link => link.id === "tit-admin")
+      ].filter(Boolean);
+    }
 
     return `
-      <article class="project-card ${project.featured ? "is-wide" : ""}" data-project-id="${project.id}">
+      <article class="project-card" data-project-id="${escapeHtml(project.id)}">
         <div class="project-top">
           <div class="project-identity">
             <div class="project-icon">${escapeHtml(project.short)}</div>
             <div>
               <span class="project-tag">${escapeHtml(project.categoryLabel)}</span>
-              <h3 class="project-title">${escapeHtml(project.name)}</h3>
+              <h2 class="project-title">${escapeHtml(project.name)}</h2>
             </div>
           </div>
         </div>
 
         <p class="project-description">${escapeHtml(project.description)}</p>
-        <div class="project-meta"><span>${links.length} accesos</span></div>
 
-        <div class="project-links">
+        <div class="project-summary">
+          <span><strong>${links.length}</strong> accesos</span>
+          <span>${escapeHtml(project.categoryLabel)}</span>
+        </div>
+
+        <div class="quick-links">
           ${quickLinks.map((link, index) => `
-            <a class="link-button ${index === 0 ? "primary" : ""}" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+            <a class="quick-link ${index === 0 ? "primary" : ""}" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
               ${escapeHtml(link.label)} ↗
             </a>
           `).join("")}
-
-          ${project.id === "cv" ? `
-            <button class="toggle-button" type="button" data-toggle-project="${project.id}" aria-expanded="${isOpen}">
-              ${isOpen ? "Ocultar perfiles ↑" : "Ver todos los perfiles ↓"}
-            </button>
-          ` : ""}
-
-          ${project.repository ? `
-            <a class="repo-button" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          ` : ""}
         </div>
 
-        ${project.id === "cv" ? `
-          <div class="expanded-links ${isOpen ? "is-open" : ""}">
-            ${project.groups.map(group => `
-              <div class="access-group">
-                <h3>${escapeHtml(group.name)}</h3>
-                <div class="access-list">
-                  ${group.links.map(accessItem).join("")}
-                </div>
-              </div>
-            `).join("")}
-          </div>
-        ` : `
-          <div class="expanded-links is-open">
-            <div class="access-group">
-              <h3>Todos los accesos</h3>
-              <div class="access-list">
-                ${links.map(accessItem).join("")}
-              </div>
-            </div>
-          </div>
-        `}
+        <div class="project-actions">
+          <button class="more-button" type="button" data-open-project="${escapeHtml(project.id)}">Ver accesos</button>
+          ${project.repository ? `<a class="repo-button" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ""}
+        </div>
       </article>
     `;
   }
@@ -173,15 +162,15 @@
     const items = favorites.map(id => linkMap.get(id)).filter(Boolean);
 
     if (!items.length) {
-      favoritesGrid.innerHTML = '<div class="favorites-empty">Marca cualquier acceso con ★ para tenerlo aquí.</div>';
+      favoritesGrid.innerHTML = '<span class="favorites-empty">Marca accesos con ★ para agregarlos aquí.</span>';
       return;
     }
 
     favoritesGrid.innerHTML = items.map(link => `
       <div class="favorite-card">
-        <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:13px;min-width:0;flex:1;text-decoration:none">
+        <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
           <span class="favorite-icon">${escapeHtml(link.projectShort)}</span>
-          <span style="min-width:0">
+          <span class="favorite-copy">
             <strong>${escapeHtml(link.label)}</strong>
             <span>${escapeHtml(link.projectName)}</span>
           </span>
@@ -199,27 +188,69 @@
     saveFavorites();
     renderFavorites();
     renderProjects();
+
+    if (!modal.hidden) {
+      const projectId = modal.dataset.projectId;
+      const project = projects.find(item => item.id === projectId);
+      if (project) fillModal(project);
+    }
+  }
+
+  function fillModal(project) {
+    modal.dataset.projectId = project.id;
+    modalTitle.textContent = project.name;
+    modalTag.textContent = project.categoryLabel;
+
+    modalContent.innerHTML = project.groups.map(group => `
+      <div class="access-group">
+        <h3>${escapeHtml(group.name)}</h3>
+        <div class="access-list">
+          ${group.links.map(accessItem).join("")}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function openModal(projectId) {
+    const project = projects.find(item => item.id === projectId);
+    if (!project) return;
+    fillModal(project);
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    modal.dataset.projectId = "";
+    document.body.style.overflow = "";
   }
 
   projectsGrid.addEventListener("click", event => {
-    const favoriteButton = event.target.closest("[data-favorite]");
-    if (favoriteButton) {
-      toggleFavorite(favoriteButton.dataset.favorite);
+    const openButton = event.target.closest("[data-open-project]");
+    if (openButton) {
+      openModal(openButton.dataset.openProject);
       return;
     }
 
-    const toggle = event.target.closest("[data-toggle-project]");
-    if (toggle) {
-      const id = toggle.dataset.toggleProject;
-      if (openProjects.has(id)) openProjects.delete(id);
-      else openProjects.add(id);
-      renderProjects();
+    const favoriteButton = event.target.closest("[data-favorite]");
+    if (favoriteButton) {
+      toggleFavorite(favoriteButton.dataset.favorite);
     }
   });
 
   favoritesGrid.addEventListener("click", event => {
     const button = event.target.closest("[data-favorite]");
     if (button) toggleFavorite(button.dataset.favorite);
+  });
+
+  modal.addEventListener("click", event => {
+    const favoriteButton = event.target.closest("[data-favorite]");
+    if (favoriteButton) {
+      toggleFavorite(favoriteButton.dataset.favorite);
+      return;
+    }
+
+    if (event.target.closest("[data-close-modal]")) closeModal();
   });
 
   filters.addEventListener("click", event => {
@@ -242,29 +273,22 @@
     if (event.key === "/" && document.activeElement !== searchInput) {
       event.preventDefault();
       searchInput.focus();
+      return;
     }
 
-    if (event.key === "Escape" && document.activeElement === searchInput) {
-      searchInput.value = "";
-      query = "";
-      searchInput.blur();
-      renderProjects();
+    if (event.key === "Escape") {
+      if (!modal.hidden) {
+        closeModal();
+        return;
+      }
+
+      if (document.activeElement === searchInput) {
+        searchInput.value = "";
+        query = "";
+        searchInput.blur();
+        renderProjects();
+      }
     }
-  });
-
-  function applyTheme(theme) {
-    if (theme === "dark") document.documentElement.dataset.theme = "dark";
-    else document.documentElement.removeAttribute("data-theme");
-    localStorage.setItem("mislinks:theme", theme);
-  }
-
-  const storedTheme = localStorage.getItem("mislinks:theme");
-  const initialTheme = storedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  applyTheme(initialTheme);
-
-  themeToggle.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme === "dark";
-    applyTheme(dark ? "light" : "dark");
   });
 
   renderStats();
