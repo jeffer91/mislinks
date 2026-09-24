@@ -34,6 +34,7 @@
     if (projectId === "titulacion") return "theme-titulacion";
     if (projectId === "antiplagio") return "theme-antiplagio";
     if (projectId === "ugpa") return "theme-ugpa";
+    if (projectId === "encuesta") return "theme-encuesta";
     return "theme-default";
   }
 
@@ -103,6 +104,7 @@
   function primaryLabel(project) {
     if (project.id === "cv") return "Principal";
     if (project.id === "titulacion") return "Central";
+    if (project.id === "encuesta") return "Estudiantes";
     return "Abrir";
   }
 
