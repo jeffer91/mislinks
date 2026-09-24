@@ -95,5 +95,21 @@ window.MISLINKS_PROJECTS = [
         ]
       }
     ]
+  },
+  {
+    id: "ugpa",
+    name: "UGPA · Gestión de Procesos Académicos",
+    short: "UGPA",
+    category: "academic",
+    categoryLabel: "Académico",
+    description: "Plataforma integral de gestión de procesos académicos.",
+    groups: [
+      {
+        name: "Accesos",
+        links: [
+          { id: "ugpa-plataforma", label: "Ingresar a plataforma", url: "https://bayron110.github.io/front-UGPA-Career/Login", primary: true }
+        ]
+      }
+    ]
   }
 ];
