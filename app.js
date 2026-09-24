@@ -10,6 +10,7 @@
   const modalTitle = document.getElementById("modalTitle");
   const modalProject = document.getElementById("modalProject");
   const modalContent = document.getElementById("modalContent");
+  const modalBack = document.getElementById("modalBack");
 
   const allLinks = projects.flatMap(project =>
     project.groups.flatMap(group =>
@@ -30,9 +31,10 @@
 
   function themeClass(projectId) {
     if (projectId === "cv") return "theme-cv";
+    if (projectId === "titulacion") return "theme-titulacion";
     if (projectId === "antiplagio") return "theme-antiplagio";
     if (projectId === "ugpa") return "theme-ugpa";
-    return "theme-titulacion";
+    return "theme-default";
   }
 
   function loadFavorites() {
@@ -58,47 +60,30 @@
   }
 
   function normalized(value = "") {
-    return String(value)
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+    return String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+
+  function projectLinks(project) {
+    return project.groups.flatMap(group => group.links);
   }
 
   function projectMatches(project) {
     if (!query) return true;
-
     const haystack = [
       project.name,
       project.categoryLabel,
-      ...project.groups.flatMap(group => [
-        group.name,
-        ...group.links.map(link => link.label)
-      ])
+      ...project.groups.flatMap(group => [group.name, ...group.links.map(link => link.label)])
     ].join(" ");
-
     return normalized(haystack).includes(normalized(query));
   }
 
   function renderStats() {
     document.getElementById("projectCount").textContent = projects.length;
-    document.getElementById("linkCount").textContent = allLinks.length;
   }
 
   function starButton(link) {
     const active = favorites.includes(link.id);
     return `<button class="star-button ${active ? "is-favorite" : ""}" type="button" data-favorite="${escapeHtml(link.id)}" aria-label="${active ? "Quitar de favoritos" : "Agregar a favoritos"}" title="${active ? "Quitar de favoritos" : "Agregar a favoritos"}">★</button>`;
-  }
-
-  function directItem(link) {
-    return `
-      <div class="direct-item">
-        <a class="direct-link" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
-          <span class="direct-dot"></span>
-          <span>${escapeHtml(link.label)}</span>
-        </a>
-        ${starButton(link)}
-      </div>
-    `;
   }
 
   function accessItem(link) {
@@ -110,90 +95,52 @@
     `;
   }
 
-  function projectHeader(project, linkCount) {
+  function primaryLink(project) {
+    const links = projectLinks(project);
+    return links.find(link => link.primary) || links[0];
+  }
+
+  function primaryLabel(project) {
+    if (project.id === "cv") return "Principal";
+    if (project.id === "titulacion") return "Estudiantes";
+    return "Abrir";
+  }
+
+  function secondaryLabel(project) {
+    if (project.id === "cv") return "Ver CV";
+    return "Ver accesos";
+  }
+
+  function projectCard(project) {
+    const links = projectLinks(project);
+    const primary = primaryLink(project);
+    const hasDetails = links.length > 1 || project.id === "cv";
+
     return `
-      <header class="project-header">
-        <div class="project-title-wrap">
+      <article class="project-card ${themeClass(project.id)}">
+        <div class="card-accent"></div>
+
+        <div class="project-card-head">
           <span class="project-icon">${escapeHtml(project.short)}</span>
-          <div>
-            <h2 class="project-name">${escapeHtml(project.name)}</h2>
-            <span class="project-meta">${linkCount} accesos</span>
-          </div>
+          ${project.repository ? `<a class="repo-link" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer" title="Abrir repositorio">GitHub ↗</a>` : ""}
         </div>
-        ${project.repository ? `<a class="repo-mini" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>` : ""}
-      </header>
-    `;
-  }
 
-  function cvCard(project) {
-    const adminGroup = project.groups[0];
-    const cvGroups = project.groups.slice(1);
-    const linkCount = project.groups.flatMap(group => group.links).length;
+        <div class="project-card-main">
+          <h2>${escapeHtml(project.name)}</h2>
+          <span>${links.length} ${links.length === 1 ? "acceso" : "accesos"}</span>
+        </div>
 
-    return `
-      <article class="project-panel theme-cv" data-project-id="${escapeHtml(project.id)}">
-        ${projectHeader(project, linkCount)}
-        <div class="project-body">
-          <section class="inner-block">
-            <div class="block-title-row">
-              <h3 class="block-title">Administración</h3>
-            </div>
-            <div class="direct-grid">
-              ${adminGroup.links.map(directItem).join("")}
-            </div>
-          </section>
-
-          <section class="inner-block">
-            <div class="block-title-row">
-              <h3 class="block-title">Tipos de CV</h3>
-              <span class="block-count">${cvGroups.reduce((total, group) => total + group.links.length, 0)} perfiles</span>
-            </div>
-            <div class="group-grid">
-              ${cvGroups.map((group, index) => `
-                <button class="group-button" type="button" data-open-group="cv:${index + 1}">
-                  <strong>${escapeHtml(group.name)}</strong>
-                  <small>${group.links.length} perfiles</small>
-                  <span class="group-arrow">›</span>
-                </button>
-              `).join("")}
-            </div>
-          </section>
+        <div class="project-card-actions ${hasDetails ? "" : "single"}">
+          <a class="primary-action" href="${escapeHtml(primary.url)}" target="_blank" rel="noopener noreferrer">${primaryLabel(project)} ↗</a>
+          ${hasDetails ? `<button class="secondary-action" type="button" data-open-project="${escapeHtml(project.id)}">${secondaryLabel(project)}</button>` : ""}
         </div>
       </article>
     `;
-  }
-
-  function standardCard(project) {
-    const links = project.groups.flatMap(group => group.links);
-    return `
-      <article class="project-panel ${themeClass(project.id)}" data-project-id="${escapeHtml(project.id)}">
-        ${projectHeader(project, links.length)}
-        <div class="project-body">
-          <section class="inner-block">
-            <div class="block-title-row">
-              <h3 class="block-title">Accesos</h3>
-            </div>
-            <div class="direct-grid">
-              ${links.map(directItem).join("")}
-            </div>
-            ${links.length > 1 ? `
-              <div class="full-access">
-                <button type="button" data-open-project="${escapeHtml(project.id)}">Ver todos</button>
-              </div>
-            ` : ""}
-          </section>
-        </div>
-      </article>
-    `;
-  }
-
-  function card(project) {
-    return project.id === "cv" ? cvCard(project) : standardCard(project);
   }
 
   function renderProjects() {
     const visible = projects.filter(projectMatches);
-    projectsGrid.innerHTML = visible.map(card).join("");
+    projectsGrid.innerHTML = visible.map(projectCard).join("");
     emptyState.hidden = visible.length > 0;
     resultsCount.textContent = query ? `${visible.length} coincidencias` : `${projects.length} proyectos`;
   }
@@ -202,20 +149,15 @@
     const items = favorites.map(id => linkMap.get(id)).filter(Boolean);
 
     if (!items.length) {
-      favoritesGrid.innerHTML = '<span class="favorites-empty">Marca accesos con ★ para tenerlos aquí.</span>';
+      favoritesGrid.innerHTML = '<span class="favorites-empty">Marca accesos con ★ dentro de cada proyecto.</span>';
       return;
     }
 
     favoritesGrid.innerHTML = items.map(link => `
-      <div class="favorite-card ${themeClass(link.projectId)}">
-        <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
-          <span class="favorite-icon">${escapeHtml(link.projectShort)}</span>
-          <span class="favorite-copy">
-            <strong>${escapeHtml(link.label)}</strong>
-            <span>${escapeHtml(link.projectName)}</span>
-          </span>
-        </a>
-        <button class="favorite-remove" type="button" data-favorite="${escapeHtml(link.id)}" aria-label="Quitar de favoritos" title="Quitar de favoritos">×</button>
+      <div class="favorite-chip ${themeClass(link.projectId)}">
+        <span class="favorite-dot"></span>
+        <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>
+        <button type="button" data-favorite="${escapeHtml(link.id)}" aria-label="Quitar de favoritos">×</button>
       </div>
     `).join("");
   }
@@ -227,13 +169,12 @@
 
     saveFavorites();
     renderFavorites();
-    renderProjects();
 
     if (!modal.hidden) {
       const projectId = modal.dataset.projectId;
       const groupIndex = modal.dataset.groupIndex;
-      if (projectId && groupIndex !== "") openGroup(projectId, Number(groupIndex), false);
-      else if (projectId) openProject(projectId, false);
+      if (projectId && groupIndex !== "") renderCvGroup(projectId, Number(groupIndex), false);
+      else if (projectId) renderProjectModal(projectId, false);
     }
   }
 
@@ -242,23 +183,56 @@
     modalProject.textContent = project.name;
   }
 
-  function openGroup(projectId, groupIndex, show = true) {
-    const project = projects.find(item => item.id === projectId);
-    const group = project?.groups?.[groupIndex];
-    if (!project || !group) return;
+  function cvOverview(project) {
+    const adminGroup = project.groups[0];
+    const cvGroups = project.groups.slice(1);
 
-    setModalTheme(project);
-    modal.dataset.projectId = project.id;
-    modal.dataset.groupIndex = String(groupIndex);
-    modalTitle.textContent = group.name;
-    modalContent.innerHTML = `
-      <div class="access-group">
-        <h3>${group.links.length} perfiles</h3>
+    return `
+      <section class="modal-section">
+        <div class="modal-section-title">Administración</div>
+        <div class="access-list">
+          ${adminGroup.links.map(accessItem).join("")}
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <div class="modal-section-title">Tipos de CV</div>
+        <div class="group-list">
+          ${cvGroups.map((group, index) => `
+            <button class="group-card" type="button" data-open-group="cv:${index + 1}">
+              <span>
+                <strong>${escapeHtml(group.name)}</strong>
+                <small>${group.links.length} perfiles</small>
+              </span>
+              <b>›</b>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function standardOverview(project) {
+    return project.groups.map(group => `
+      <section class="modal-section">
+        <div class="modal-section-title">${escapeHtml(group.name)}</div>
         <div class="access-list">
           ${group.links.map(accessItem).join("")}
         </div>
-      </div>
-    `;
+      </section>
+    `).join("");
+  }
+
+  function renderProjectModal(projectId, show = true) {
+    const project = projects.find(item => item.id === projectId);
+    if (!project) return;
+
+    setModalTheme(project);
+    modal.dataset.projectId = project.id;
+    modal.dataset.groupIndex = "";
+    modalBack.hidden = true;
+    modalTitle.textContent = project.id === "cv" ? "CV y perfiles" : "Accesos";
+    modalContent.innerHTML = project.id === "cv" ? cvOverview(project) : standardOverview(project);
 
     if (show) {
       modal.hidden = false;
@@ -266,22 +240,24 @@
     }
   }
 
-  function openProject(projectId, show = true) {
+  function renderCvGroup(projectId, groupIndex, show = true) {
     const project = projects.find(item => item.id === projectId);
-    if (!project) return;
+    const group = project?.groups?.[groupIndex];
+    if (!project || !group) return;
 
     setModalTheme(project);
     modal.dataset.projectId = project.id;
-    modal.dataset.groupIndex = "";
-    modalTitle.textContent = "Todos los accesos";
-    modalContent.innerHTML = project.groups.map(group => `
-      <div class="access-group">
-        <h3>${escapeHtml(group.name)}</h3>
+    modal.dataset.groupIndex = String(groupIndex);
+    modalBack.hidden = false;
+    modalTitle.textContent = group.name;
+    modalContent.innerHTML = `
+      <section class="modal-section">
+        <div class="modal-section-title">${group.links.length} perfiles</div>
         <div class="access-list">
           ${group.links.map(accessItem).join("")}
         </div>
-      </div>
-    `).join("");
+      </section>
+    `;
 
     if (show) {
       modal.hidden = false;
@@ -297,21 +273,8 @@
   }
 
   projectsGrid.addEventListener("click", event => {
-    const groupButton = event.target.closest("[data-open-group]");
-    if (groupButton) {
-      const [projectId, groupIndex] = groupButton.dataset.openGroup.split(":");
-      openGroup(projectId, Number(groupIndex));
-      return;
-    }
-
     const projectButton = event.target.closest("[data-open-project]");
-    if (projectButton) {
-      openProject(projectButton.dataset.openProject);
-      return;
-    }
-
-    const favoriteButton = event.target.closest("[data-favorite]");
-    if (favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
+    if (projectButton) renderProjectModal(projectButton.dataset.openProject);
   });
 
   favoritesGrid.addEventListener("click", event => {
@@ -319,13 +282,26 @@
     if (button) toggleFavorite(button.dataset.favorite);
   });
 
-  modal.addEventListener("click", event => {
+  modalContent.addEventListener("click", event => {
     const favoriteButton = event.target.closest("[data-favorite]");
     if (favoriteButton) {
       toggleFavorite(favoriteButton.dataset.favorite);
       return;
     }
 
+    const groupButton = event.target.closest("[data-open-group]");
+    if (groupButton) {
+      const [projectId, groupIndex] = groupButton.dataset.openGroup.split(":");
+      renderCvGroup(projectId, Number(groupIndex));
+    }
+  });
+
+  modalBack.addEventListener("click", () => {
+    const projectId = modal.dataset.projectId;
+    if (projectId) renderProjectModal(projectId, false);
+  });
+
+  modal.addEventListener("click", event => {
     if (event.target.closest("[data-close-modal]")) closeModal();
   });
 
@@ -346,7 +322,6 @@
         closeModal();
         return;
       }
-
       if (document.activeElement === searchInput) {
         searchInput.value = "";
         query = "";
