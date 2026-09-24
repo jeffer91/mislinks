@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Directorio personal de proyectos, sistemas y perfiles de Jefferson Villarreal." />
+  <title>Mis Links · Jefferson Villarreal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Inicio">
+        <span class="brand-mark">JL</span>
+        <span>
+          <strong>Mis Links</strong>
+          <small>Jefferson Villarreal</small>
+        </span>
+      </a>
+
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+        <span aria-hidden="true">◐</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Panel personal</p>
+          <h1>Todos mis proyectos,<br />en un solo lugar.</h1>
+          <p class="hero-text">Accesos rápidos a sistemas, perfiles profesionales y herramientas.</p>
+        </div>
+
+        <div class="stats" aria-label="Resumen">
+          <div><strong id="projectCount">3</strong><span>proyectos</span></div>
+          <div><strong id="linkCount">33</strong><span>accesos</span></div>
+        </div>
+      </section>
+
+      <section class="search-section" aria-label="Búsqueda y filtros">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Buscar proyecto, perfil o herramienta..." />
+          <kbd>/</kbd>
+        </label>
+
+        <div id="filters" class="filters" role="group" aria-label="Filtrar proyectos">
+          <button class="filter is-active" data-filter="all" type="button">Todos</button>
+          <button class="filter" data-filter="professional" type="button">Profesional</button>
+          <button class="filter" data-filter="academic" type="button">Académico</button>
+        </div>
+      </section>
+
+      <section class="section-block" id="favoritesSection">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Accesos rápidos</p>
+            <h2>Favoritos</h2>
+          </div>
+          <span class="section-note">Se guardan en este navegador</span>
+        </div>
+        <div id="favoritesGrid" class="favorites-grid"></div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Directorio</p>
+            <h2>Proyectos</h2>
+          </div>
+          <span id="resultsCount" class="section-note"></span>
+        </div>
+
+        <div id="projectsGrid" class="projects-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <strong>No encontré coincidencias.</strong>
+          <span>Prueba con otra palabra o cambia el filtro.</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Mis Links</span>
+      <span>Directorio personal de Jefferson Villarreal</span>
+    </footer>
+  </div>
+
+  <script src="projects.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
