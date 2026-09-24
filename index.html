@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Directorio personal de proyectos, sistemas y perfiles de Jefferson Villarreal." />
+  <meta name="description" content="Directorio personal de proyectos y accesos de Jefferson Villarreal." />
   <title>Mis Links · Jefferson Villarreal</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -12,7 +12,7 @@
     <header class="topbar">
       <a class="brand" href="./" aria-label="Inicio">
         <span class="brand-mark">JL</span>
-        <span class="brand-copy">
+        <span>
           <strong>Mis Links</strong>
           <small>Jefferson Villarreal</small>
         </span>
@@ -24,15 +24,15 @@
         <kbd>/</kbd>
       </label>
 
-      <div class="top-stats" aria-label="Resumen">
-        <span><strong id="projectCount">3</strong> proyectos</span>
-        <span><strong id="linkCount">33</strong> accesos</span>
+      <div class="top-stats">
+        <strong id="projectCount">4</strong>
+        <span>proyectos</span>
       </div>
     </header>
 
     <main>
       <section class="favorites-strip" id="favoritesSection">
-        <span class="favorites-label">Favoritos</span>
+        <span class="favorites-label">★ Favoritos</span>
         <div id="favoritesGrid" class="favorites-grid"></div>
       </section>
 
@@ -58,7 +58,8 @@
     <button class="modal-backdrop" type="button" data-close-modal aria-label="Cerrar"></button>
     <section id="modalPanel" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <header class="modal-header">
-        <div class="modal-title-wrap">
+        <div class="modal-heading">
+          <button id="modalBack" class="modal-back" type="button" hidden>← Volver</button>
           <span id="modalProject" class="modal-project">Proyecto</span>
           <h2 id="modalTitle">Accesos</h2>
         </div>
