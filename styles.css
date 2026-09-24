@@ -85,6 +85,7 @@ a { color: inherit; }
 .favorite-chip.theme-titulacion { --p:#059669; --ps:#eaf8f3; }
 .favorite-chip.theme-antiplagio { --p:#ea580c; --ps:#fff1e8; }
 .favorite-chip.theme-ugpa { --p:#10264a; --ps:#fff5cf; }
+.favorite-chip.theme-encuesta { --p:#db2777; --ps:#fdf2f8; }
 .favorite-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--p); }
 .favorite-chip a {
   max-width: 160px; overflow: hidden; color: var(--text); text-decoration: none;
@@ -107,7 +108,7 @@ a { color: inherit; }
 .projects-section { padding-bottom: 14px; }
 
 .projects-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 10px; align-items: stretch;
 }
 
@@ -123,6 +124,7 @@ a { color: inherit; }
 .project-card.theme-titulacion { --p:#059669; --ps:#eaf8f3; --pd:#065f46; }
 .project-card.theme-antiplagio { --p:#ea580c; --ps:#fff1e8; --pd:#9a3412; }
 .project-card.theme-ugpa { --p:#10264a; --ps:#fff5cf; --pd:#10264a; }
+.project-card.theme-encuesta { --p:#db2777; --ps:#fdf2f8; --pd:#9d174d; }
 
 .card-accent { height: 4px; background: linear-gradient(90deg, var(--p), color-mix(in srgb, var(--p) 48%, #fff)); }
 
@@ -183,6 +185,7 @@ a { color: inherit; }
 .modal-panel.theme-titulacion { --p:#059669; --ps:#eaf8f3; --pd:#065f46; }
 .modal-panel.theme-antiplagio { --p:#ea580c; --ps:#fff1e8; --pd:#9a3412; }
 .modal-panel.theme-ugpa { --p:#10264a; --ps:#fff5cf; --pd:#10264a; }
+.modal-panel.theme-encuesta { --p:#db2777; --ps:#fdf2f8; --pd:#9d174d; }
 
 .modal-header {
   display: flex; align-items: center; justify-content: space-between; gap: 14px;
