@@ -81,11 +81,11 @@ window.MISLINKS_PROJECTS = [
   },
   {
     id: "titulacion",
-    name: "Sistema de Titulación",
-    short: "TT",
+    name: "Revisión de Títulos",
+    short: "RT",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Gestión de estudiantes, trabajos de titulación, coordinadores, investigadores y administración.",
+    description: "Revisión de títulos y accesos por perfil.",
     groups: [
       {
         name: "Accesos",
