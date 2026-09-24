@@ -31,6 +31,7 @@
   function themeClass(projectId) {
     if (projectId === "cv") return "theme-cv";
     if (projectId === "antiplagio") return "theme-antiplagio";
+    if (projectId === "ugpa") return "theme-ugpa";
     return "theme-titulacion";
   }
 
