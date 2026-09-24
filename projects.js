@@ -69,13 +69,19 @@ window.MISLINKS_PROJECTS = [
     description: "Revisión de títulos y accesos por perfil.",
     groups: [
       {
+        name: "Principal",
+        links: [
+          { id: "tit-central", label: "Acceso central", url: "https://jeffer91.github.io/estudiantestit/", primary: true }
+        ]
+      },
+      {
         name: "Accesos",
         links: [
-          { id: "tit-estudiantes", label: "Estudiantes", url: "https://titulos.pages.dev/estudiantes/estudiante", primary: true },
-          { id: "tit-trabajo", label: "Trabajo de Titulación", url: "https://titulos.pages.dev/trabajo-titulacion/" },
-          { id: "tit-coordinadores", label: "Coordinadores", url: "https://titulos-coordinadores.pages.dev/" },
-          { id: "tit-investigadores", label: "Investigadores", url: "https://titulos-investigadores.pages.dev/" },
-          { id: "tit-admin", label: "Administrador", url: "https://titulos-administrador.pages.dev/" }
+          { id: "tit-estudiantes", label: "Estudiantes", url: "https://jeffer91.github.io/estudiantestit/estudiantes/" },
+          { id: "tit-trabajo", label: "Trabajo de Titulación", url: "https://jeffer91.github.io/estudiantestit/trabajo-titulacion/" },
+          { id: "tit-coordinadores", label: "Coordinadores", url: "https://jeffer91.github.io/estudiantestit/coordinadores/" },
+          { id: "tit-investigadores", label: "Investigadores", url: "https://jeffer91.github.io/estudiantestit/investigadores/" },
+          { id: "tit-admin", label: "Administrador", url: "https://jeffer91.github.io/estudiantestit/administrador/" }
         ]
       }
     ]
