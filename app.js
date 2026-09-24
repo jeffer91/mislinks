@@ -24,7 +24,7 @@
   );
 
   const linkMap = new Map(allLinks.map(link => [link.id, link]));
-  const defaultFavorites = ["tit-admin", "doc-admin", "cv-principal"];
+  const defaultFavorites = ["tit-admin", "cv-principal"];
   let query = "";
   let favorites = loadFavorites();
 
