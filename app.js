@@ -30,7 +30,7 @@
 
   function themeClass(projectId) {
     if (projectId === "cv") return "theme-cv";
-    if (projectId === "docentes") return "theme-docentes";
+    if (projectId === "antiplagio") return "theme-antiplagio";
     return "theme-titulacion";
   }
 
@@ -175,9 +175,11 @@
             <div class="direct-grid">
               ${links.map(directItem).join("")}
             </div>
-            <div class="full-access">
-              <button type="button" data-open-project="${escapeHtml(project.id)}">Ver todos</button>
-            </div>
+            ${links.length > 1 ? `
+              <div class="full-access">
+                <button type="button" data-open-project="${escapeHtml(project.id)}">Ver todos</button>
+              </div>
+            ` : ""}
           </section>
         </div>
       </article>
