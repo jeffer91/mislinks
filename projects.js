@@ -79,5 +79,21 @@ window.MISLINKS_PROJECTS = [
         ]
       }
     ]
+  },
+  {
+    id: "antiplagio",
+    name: "Antiplagio",
+    short: "AP",
+    category: "academic",
+    categoryLabel: "Académico",
+    description: "Revisión académica y antiplagio.",
+    groups: [
+      {
+        name: "Accesos",
+        links: [
+          { id: "antiplagio-estudiante", label: "Estudiante", url: "https://jeffer91.github.io/Antiplagio-ITSQMET/#/student", primary: true }
+        ]
+      }
+    ]
   }
 ];
