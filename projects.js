@@ -117,5 +117,22 @@ window.MISLINKS_PROJECTS = [
         ]
       }
     ]
+  },
+  {
+    id: "encuesta",
+    name: "Encuesta de Satisfacción",
+    short: "ES",
+    category: "academic",
+    categoryLabel: "Académico",
+    description: "Encuesta institucional de satisfacción.",
+    groups: [
+      {
+        name: "Accesos",
+        links: [
+          { id: "encuesta-estudiantes", label: "Estudiantes", url: "https://jeffer91.github.io/calificaci-n/estudiantes/", primary: true },
+          { id: "encuesta-admin", label: "Administrador", url: "https://jeffer91.github.io/calificaci-n/administrador/" }
+        ]
+      }
+    ]
   }
 ];
