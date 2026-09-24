@@ -225,6 +225,11 @@ a {
   --ps: #e8f8f2;
 }
 
+.favorite-card.theme-antiplagio {
+  --p: #ea580c;
+  --ps: #fff1e6;
+}
+
 .favorite-card a {
   display: flex;
   align-items: center;
@@ -371,6 +376,12 @@ a {
   --p: #059669;
   --ps: #e8f8f2;
   --pd: #065f46;
+}
+
+.project-panel.theme-antiplagio {
+  --p: #ea580c;
+  --ps: #fff1e6;
+  --pd: #9a3412;
 }
 
 .project-header {
@@ -686,6 +697,12 @@ a {
   --p: #059669;
   --ps: #e8f8f2;
   --pd: #065f46;
+}
+
+.modal-panel.theme-antiplagio {
+  --p: #ea580c;
+  --ps: #fff1e6;
+  --pd: #9a3412;
 }
 
 .modal-header {
