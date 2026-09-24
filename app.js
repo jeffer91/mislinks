@@ -102,7 +102,7 @@
 
   function primaryLabel(project) {
     if (project.id === "cv") return "Principal";
-    if (project.id === "titulacion") return "Estudiantes";
+    if (project.id === "titulacion") return "Central";
     return "Abrir";
   }
 
