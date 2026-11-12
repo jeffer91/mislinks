@@ -149,7 +149,8 @@ window.MISLINKS_PROJECTS = [
         links: [
           { id: "doc-inicio", label: "Inicio", url: "https://jeffer91.github.io/doctorado/#/inicio", primary: true },
           { id: "doc-proceso", label: "En proceso", url: "https://jeffer91.github.io/doctorado/#/proceso" },
-          { id: "doc-final", label: "Finalización", url: "https://jeffer91.github.io/doctorado/#/final" }
+          { id: "doc-final", label: "Finalización", url: "https://jeffer91.github.io/doctorado/#/final" },
+          { id: "doc-regulares", label: "Examen o tesis · Regulares", url: "https://jeffer91.github.io/doctorado/#/regulares" }
         ]
       },
       {
