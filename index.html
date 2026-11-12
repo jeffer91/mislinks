@@ -3,72 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Directorio personal de proyectos y accesos de Jefferson Villarreal." />
-  <title>Mis Links · Jefferson Villarreal</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="shortcut icon" href="assets/favicon.svg" />
-  <meta name="theme-color" content="#2563eb" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#14202b" />
+  <meta name="description" content="Portal ITSQMET: aplicaciones de titulación, docentes, currículo, comunicación e inducciones." />
+  <title>Mis Links | Portal de Aplicaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261028-compacto-v2" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="Mis Links · Inicio">
-        <img class="brand-logo" src="assets/logo.svg" alt="Mis Links · Jefferson Villarreal" />
+  <header class="topbar">
+    <div class="shell topbar__inner">
+      <a class="brand" href="#inicio" aria-label="Mis Links: ir al inicio">
+        <img class="brand__logo" src="assets/logo.svg" alt="Mis Links" />
+        <span class="brand__label">Aplicaciones</span>
       </a>
-
-      <label class="search-box">
-        <span aria-hidden="true">⌕</span>
-        <input id="searchInput" type="search" autocomplete="off" placeholder="Buscar proyecto o acceso..." />
-        <kbd>/</kbd>
-      </label>
-
-      <div class="top-stats">
-        <strong id="projectCount">4</strong>
-        <span>proyectos</span>
+      <div class="search" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+        <input id="search-input" type="search" placeholder="Buscar aplicación o trámite..." autocomplete="off" aria-label="Buscar aplicación o trámite" />
+        <button id="search-clear" class="search__clear" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main>
-      <section class="favorites-strip" id="favoritesSection">
-        <span class="favorites-label">★ Favoritos</span>
-        <div id="favoritesGrid" class="favorites-grid"></div>
-      </section>
-
-      <section class="projects-heading">
-        <div>
-          <p class="eyebrow">Panel personal</p>
-          <h1>Proyectos</h1>
-        </div>
-        <span id="resultsCount" class="results"></span>
-      </section>
-
-      <section class="projects-section">
-        <div id="projectsGrid" class="projects-grid"></div>
-        <div id="emptyState" class="empty-state" hidden>
-          <strong>No encontré coincidencias.</strong>
-          <span>Prueba con otra palabra.</span>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <div id="accessModal" class="modal" hidden>
-    <button class="modal-backdrop" type="button" data-close-modal aria-label="Cerrar"></button>
-    <section id="modalPanel" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <header class="modal-header">
-        <div class="modal-heading">
-          <button id="modalBack" class="modal-back" type="button" hidden>← Volver</button>
-          <span id="modalProject" class="modal-project">Proyecto</span>
-          <h2 id="modalTitle">Accesos</h2>
-        </div>
-        <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">×</button>
-      </header>
-      <div id="modalContent" class="modal-content"></div>
+  <main id="inicio" class="shell workspace">
+    <section id="home-view" aria-labelledby="home-heading">
+      <div class="page-head">
+        <span class="eyebrow">MIS LINKS · DIRECTORIO</span>
+        <h1 id="home-heading">¿Qué necesitas hacer?</h1>
+        <p>Selecciona un área para encontrar sus aplicaciones.</p>
+      </div>
+      <div class="section-head">
+        <h2>Áreas de trabajo</h2>
+        <span class="results-note" id="catalog-meta"></span>
+      </div>
+      <div id="area-grid" class="area-grid" aria-label="Áreas de trabajo"></div>
     </section>
-  </div>
 
-  <script src="projects.js"></script>
-  <script src="app.js"></script>
+    <section id="area-view" hidden aria-labelledby="area-heading">
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="#inicio"><span aria-hidden="true">←</span> Todas las áreas</a>
+      </nav>
+      <div class="area-header">
+        <span class="area-header__icon" id="area-icon" aria-hidden="true"></span>
+        <div class="area-header__text">
+          <span class="eyebrow">APLICACIONES</span>
+          <h1 id="area-heading"></h1>
+          <p id="area-description"></p>
+        </div>
+      </div>
+      <div class="section-head section-head--inner">
+        <h2>Herramientas disponibles</h2>
+        <span class="results-note" id="area-count"></span>
+      </div>
+      <div id="app-grid" class="app-grid" aria-label="Aplicaciones del área"></div>
+    </section>
+
+    <section id="results-view" hidden aria-labelledby="results-heading">
+      <div class="page-head">
+        <span class="eyebrow">BUSCADOR GLOBAL</span>
+        <h1 id="results-heading">Resultados de búsqueda</h1>
+        <p id="results-count" role="status" aria-live="polite"></p>
+      </div>
+      <div id="search-results" class="app-grid" aria-label="Aplicaciones encontradas"></div>
+      <div id="empty-state" class="empty-state" hidden>
+        <span class="empty-state__icon" aria-hidden="true">⌕</span>
+        <strong>No encontramos resultados</strong>
+        <p>Prueba con «títulos», «inducciones», «docentes» o «mensajes».</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer__inner">
+      <span>Mis Links · Portal de Aplicaciones</span>
+      <span>Acceso unificado a todos tus proyectos</span>
+    </div>
+  </footer>
+  <script src="projects.js"></script><script src="app.js?v=unificado-20261112"></script>
 </body>
 </html>
