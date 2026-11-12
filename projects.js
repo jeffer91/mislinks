@@ -135,4 +135,29 @@ window.MISLINKS_PROJECTS = [
       }
     ]
   }
+  {
+    id: "doctorado",
+    name: "Doctorado · Encuestas de Titulación",
+    short: "DOC",
+    category: "academic",
+    categoryLabel: "Académico",
+    description: "Encuestas de investigación para estudiantes al inicio, durante el proceso y al finalizar la titulación.",
+    repository: "https://github.com/jeffer91/doctorado",
+    groups: [
+      {
+        name: "Etapas de la encuesta",
+        links: [
+          { id: "doc-inicio", label: "Inicio", url: "https://jeffer91.github.io/doctorado/#/inicio", primary: true },
+          { id: "doc-proceso", label: "En proceso", url: "https://jeffer91.github.io/doctorado/#/proceso" },
+          { id: "doc-final", label: "Finalización", url: "https://jeffer91.github.io/doctorado/#/final" }
+        ]
+      },
+      {
+        name: "Administración",
+        links: [
+          { id: "doc-admin", label: "Administrador", url: "https://jeffer91.github.io/doctorado/#/admin" }
+        ]
+      }
+    ]
+  },
 ];
