@@ -5,7 +5,7 @@ window.MISLINKS_PROJECTS = [
     short: "CV",
     category: "professional",
     categoryLabel: "Profesional",
-    description: "Perfiles adaptados para coordinación, docencia, ingeniería, industria, investigación, marketing y gestión.",
+    description: "Perfiles según especialidad.",
     repository: "https://github.com/jeffer91/CV",
     featured: true,
     groups: [
@@ -66,7 +66,7 @@ window.MISLINKS_PROJECTS = [
     short: "RT",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Revisión de títulos y accesos por perfil.",
+    description: "Propuestas y revisión.",
     groups: [
       {
         name: "Principal",
@@ -92,7 +92,7 @@ window.MISLINKS_PROJECTS = [
     short: "AP",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Revisión académica y antiplagio.",
+    description: "Control de similitud.",
     groups: [
       {
         name: "Accesos",
@@ -104,11 +104,11 @@ window.MISLINKS_PROJECTS = [
   },
   {
     id: "ugpa",
-    name: "UGPA · Gestión de Procesos Académicos",
+    name: "UGPA",
     short: "UGPA",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Plataforma integral de gestión de procesos académicos.",
+    description: "Gestión académica.",
     groups: [
       {
         name: "Accesos",
@@ -124,7 +124,7 @@ window.MISLINKS_PROJECTS = [
     short: "ES",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Encuesta institucional de satisfacción.",
+    description: "Evaluación institucional.",
     groups: [
       {
         name: "Accesos",
@@ -137,11 +137,11 @@ window.MISLINKS_PROJECTS = [
   },
   {
     id: "doctorado",
-    name: "Doctorado · Encuestas de Titulación",
+    name: "Doctorado",
     short: "DOC",
     category: "academic",
     categoryLabel: "Académico",
-    description: "Encuestas de investigación para estudiantes al inicio, durante el proceso y al finalizar la titulación.",
+    description: "Encuestas de titulación.",
     repository: "https://github.com/jeffer91/doctorado",
     groups: [
       {
