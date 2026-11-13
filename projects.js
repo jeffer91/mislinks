@@ -134,7 +134,7 @@ window.MISLINKS_PROJECTS = [
         ]
       }
     ]
-  }
+  },
   {
     id: "doctorado",
     name: "Doctorado · Encuestas de Titulación",
@@ -145,9 +145,15 @@ window.MISLINKS_PROJECTS = [
     repository: "https://github.com/jeffer91/doctorado",
     groups: [
       {
+        name: "Principal",
+        links: [
+          { id: "doc-principal", label: "Portal principal", url: "https://jeffer91.github.io/doctorado/", primary: true }
+        ]
+      },
+      {
         name: "Etapas de la encuesta",
         links: [
-          { id: "doc-inicio", label: "Inicio", url: "https://jeffer91.github.io/doctorado/#/inicio", primary: true },
+          { id: "doc-inicio", label: "Inicio", url: "https://jeffer91.github.io/doctorado/#/inicio" },
           { id: "doc-proceso", label: "En proceso", url: "https://jeffer91.github.io/doctorado/#/proceso" },
           { id: "doc-final", label: "Finalización", url: "https://jeffer91.github.io/doctorado/#/final" },
           { id: "doc-regulares", label: "Examen o tesis · Regulares", url: "https://jeffer91.github.io/doctorado/#/regulares" }
