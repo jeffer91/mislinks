@@ -140,7 +140,7 @@ const areas = [
   {
     "id": "portadas",
     "name": "Portadas",
-    "description": "Preparación de documentos para firma",
+    "description": "Documentos para firma",
     "icon": "document",
     "apps": [
       {
@@ -182,7 +182,7 @@ const areas = [
   {
     "id": "docentes",
     "name": "Docentes",
-    "description": "Formación, capacitación y seguimiento",
+    "description": "Capacitación y seguimiento",
     "icon": "training",
     "apps": [
       {
@@ -282,7 +282,7 @@ const areas = [
   {
     "id": "bases-datos",
     "name": "Bases de datos",
-    "description": "Consulta y respaldo de bases de datos",
+    "description": "Consulta y respaldo",
     "icon": "document",
     "apps": [
       {
@@ -411,7 +411,7 @@ const areas = [
   {
     "id": "inducciones",
     "name": "Inducciones",
-    "description": "Registro de inducciones académicas",
+    "description": "Registro de inducciones",
     "icon": "induction",
     "apps": [
       {
